@@ -1,0 +1,46 @@
+import random
+
+class JuegoAdivinarNumero:
+    def __init__(self, rango_min, rango_max):
+        self.numero_secreto = random.randint(rango_min, rango_max)
+        self.intentos_restantes = 5
+
+    def adivinar(self, numero):
+        self.intentos_restantes -= 1
+        if numero == self.numero_secreto:
+            return "¡Correcto! Has adivinado el número {}.".format(self.numero_secreto)
+        elif numero < self.numero_secreto:
+            return "Demasiado bajo. Intentos restantes: {}".format(self.intentos_restantes)
+        else:
+            return "Demasiado alto. Intentos restantes: {}".format(self.intentos_restantes)
+
+    def estado_juego(self):
+        if self.intentos_restantes <= 0:
+            return "Perdiste. El número secreto era: {}.".format(self.numero_secreto)
+        else:
+            return "Intentos restantes: {}".format(self.intentos_restantes)
+
+def jugar():
+    rango_min = 1
+    rango_max = 100
+    juego = JuegoAdivinarNumero(rango_min, rango_max)
+
+    print("¡Bienvenido al juego de adivinar el número!")
+    print("Adivina un número entre {} y {}.".format(rango_min, rango_max))
+
+    while juego.intentos_restantes > 0:
+        try:
+            intento = int(input("Ingresa tu adivinanza: "))
+            resultado = juego.adivinar(intento)
+            print(resultado)
+
+            if intento == juego.numero_secreto or juego.intentos_restantes <= 0:
+                break
+
+        except ValueError:
+            print("Por favor, ingresa un número válido.")
+
+    print("\n" + juego.estado_juego())
+
+if __name__ == "__main__":
+    jugar()
